@@ -14,25 +14,25 @@ export const plansData: SectionTranslations = {
           title: 'Private Office', 
           shortText: 'Your dedicated secure space.', 
           fullText: 'Our private offices provide a professional, quiet environment suitable for small to medium-sized teams. Each office is fully furnished and includes high-speed internet, secure access, and all utilities.',
-          imageUrl: '/images/plans/pic1.jpg' 
+          imageUrl: 'images/plans/pic1.jpg' 
         },
         { 
           title: 'Dedicated Desk', 
           shortText: 'Your own desk in a shared room.', 
           fullText: 'A dedicated desk gives you the benefit of a professional workspace with the flexibility of a shared office. You get a permanent spot where you can leave your belongings and focus on your work.',
-          imageUrl: '/images/plans/pic2.jpg' 
+          imageUrl: 'images/plans/pic2.jpg' 
         },
         { 
           title: 'Virtual Office', 
           shortText: 'Professional address & services.', 
           fullText: 'Establish a presence with a professional business address. Our virtual office plans include mail handling and optional phone services, perfect for remote workers and start-ups.',
-          imageUrl: '/images/plans/pic3.jpg' 
+          imageUrl: 'images/plans/pic3.jpg' 
         },
         { 
           title: 'Meeting Rooms', 
           shortText: 'Full tech for your meetings.', 
           fullText: 'Modern meeting rooms equipped with top-tier presentation technology and seamless connectivity. Available hourly or for full days, including coffee and administrative support.',
-          imageUrl: '/images/plans/pic4.jpg' 
+          imageUrl: 'images/plans/pic4.jpg' 
         }
       ]
     },
@@ -46,25 +46,25 @@ export const plansData: SectionTranslations = {
           title: 'Личный Офис', 
           shortText: 'Ваше выделенное безопасное пространство.', 
           fullText: 'Наши частные офисы обеспечивают профессиональную, тихую обстановку, подходящую для команд малого и среднего размера. Каждый офис полностью меблирован.',
-          imageUrl: '/images/plans/pic1.jpg' 
+          imageUrl: 'images/plans/pic1.jpg' 
         },
         { 
           title: 'Закрепленное Место', 
           shortText: 'Ваш стол в общим зале.', 
           fullText: 'Закрепленный рабочий стол дает вам преимущество профессионального рабочего пространства с гибкостью общего офиса.',
-          imageUrl: '/images/plans/pic2.jpg' 
+          imageUrl: 'images/plans/pic2.jpg' 
         },
         { 
           title: 'Виртуальный Офис', 
           shortText: 'Профессиональный адрес и услуги.', 
           fullText: 'Создайте присутствие с профессиональным бизнес-адресом. Наши планы включают обработку почты и дополнительные телефонные услуги.',
-          imageUrl: '/images/plans/pic3.jpg' 
+          imageUrl: 'images/plans/pic3.jpg' 
         },
         { 
           title: 'Переговорные', 
           shortText: 'Полное оснащение для встреч.', 
           fullText: 'Современные конференц-залы, оснащенные первоклассным презентационным оборудованием и бесперебойной связью.',
-          imageUrl: '/images/plans/pic4.jpg' 
+          imageUrl: 'images/plans/pic4.jpg' 
         }
       ]
     },
@@ -94,7 +94,7 @@ export const plansData: SectionTranslations = {
             'Ամբողջ տարածքի մաքրության ապահովում',
             'Ընդարձակ կանաչ գոտի հանգստի համար (Green zone)'
           ],
-          imageUrl: '/images/plans/pic1.jpg' 
+          imageUrl: 'images/plans/pic1.jpg' 
         },
         { 
           title: 'STANDARD +', 
@@ -121,7 +121,7 @@ export const plansData: SectionTranslations = {
             'Ընդարձակ հանդիպումների սրահ (Conference hall) (ամսական 4ժ)',
             'Սերվերային տարածքի տրամադրում (unit)'
           ],
-          imageUrl: '/images/plans/pic2.jpg' 
+          imageUrl: 'images/plans/pic2.jpg' 
         },
         { 
           title: 'PREMIUM', 
@@ -149,7 +149,7 @@ export const plansData: SectionTranslations = {
             'Ընդարձակ հանդիպումների սրահ (Conference hall) (ամսական 4ժ)',
             'Սերվերային տարածքի տրամադրում (unit)'
           ],
-          imageUrl: '/images/plans/pic3.jpg' 
+          imageUrl: 'images/plans/pic3.jpg' 
         },
         { 
           title: 'PREMIUM +', 
@@ -181,7 +181,7 @@ export const plansData: SectionTranslations = {
             'Սերվերային տարածքի տրամադրում (unit)',
             'Տանիքում բացօթյա ռեստորան-սրճարան, սիգար-բար, ֆուդ կորտ'
           ],
-          imageUrl: '/images/plans/pic4.jpg' 
+          imageUrl: 'images/plans/pic4.jpg' 
         }
       ]
     }

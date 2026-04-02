@@ -12,10 +12,10 @@ export const defaultData: SectionTranslations = {
         'Whether you are an individual professional or a growing team, we have the perfect space for you.'
       ],
       slides: [
-        { imageUrl: '/images/default/image1.jpg', title: 'Main Workspace', subtitle: 'Experience the premium environment' },
-        { imageUrl: '/images/default/image2.jpg', title: 'Meeting Rooms', subtitle: 'Equipped with top tech' },
+        { imageUrl: 'images/default/image1.jpg', title: 'Main Workspace', subtitle: 'Experience the premium environment' },
+        { imageUrl: 'images/default/image2.jpg', title: 'Meeting Rooms', subtitle: 'Equipped with top tech' },
         {
-          imageUrl: '/images/default/image3.jpg',
+          imageUrl: 'images/default/image3.jpg',
           title: 'Interesting Facts',
           stats: [
             { value: '80+', label: 'rooms' },
@@ -33,10 +33,10 @@ export const defaultData: SectionTranslations = {
         'Являетесь ли вы индивидуальным профессионалом или растущей командой, у нас есть идеальное пространство для вас.'
       ],
       slides: [
-        { imageUrl: '/images/default/image1.jpg', title: 'Главное Пространство', subtitle: 'Оцените премиальную среду' },
-        { imageUrl: '/images/default/image2.jpg', title: 'Переговорные', subtitle: 'Оснащены передовыми технологиями' },
+        { imageUrl: 'images/default/image1.jpg', title: 'Главное Пространство', subtitle: 'Оцените премиальную среду' },
+        { imageUrl: 'images/default/image2.jpg', title: 'Переговорные', subtitle: 'Оснащены передовыми технологиями' },
         {
-          imageUrl: '/images/default/image3.jpg',
+          imageUrl: 'images/default/image3.jpg',
           title: 'Интересные факты',
           stats: [
             { value: '80+', label: 'офисов' },
@@ -55,19 +55,19 @@ export const defaultData: SectionTranslations = {
       ],
       slides: [
         {
-          imageUrl: '/images/default/image1.jpg',
+          imageUrl: 'images/default/image1.jpg',
           topText: 'նոր, պրեմիում A դասի',
           title: 'բիզնես կենտրոն Երևանում',
           subtitle: 'որտեղ նորարարությունը հանդիպում է հնարավորություններին'
         },
         {
-          imageUrl: '/images/default/image2.jpg',
+          imageUrl: 'images/default/image2.jpg',
           topText: 'UP&UP բիզնես կենտրոնն առաջարկում է',
           title: '25քմ-335քմ',
           subtitle: 'գրասենյակային տարածքներ'
         },
         {
-          imageUrl: '/images/default/image3.jpg',
+          imageUrl: 'images/default/image3.jpg',
           title: 'Հետաքրքիր փաստեր',
           stats: [
             { value: '80+', label: 'սենյակ․' },

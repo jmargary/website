@@ -36,7 +36,7 @@ export function SiteHeader() {
       <div className="header-logo">
         {/* Custom logo uploaded by user */}
         <img 
-          src="/images/logo/logo.png" 
+          src="images/logo/logo.png" 
           alt="Logo" 
           style={{ height: '42px', display: 'block' }}
           onError={(e) => {
