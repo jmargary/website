@@ -10,28 +10,22 @@ export function InfoSection() {
   const expansionRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
-  // Track when info section enters the viewport (used for future enhancements)
   const [settled, setSettled] = useState(false);
-  void settled; // suppress lint — retained for potential future use
 
-  // Use IntersectionObserver to detect when the section reaches the viewport top.
-  // IntersectionObserver is passive and safe for iOS — avoids touch-event conflicts.
+  // Simple pointer-events lock: disable mouse interaction on section until it reaches viewport top.
+  // Uses a passive scroll listener — zero JS scroll manipulation, no lag.
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setSettled(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.05 } // trigger when 5% of section is visible
-    );
+    const onScroll = () => {
+      if (section.getBoundingClientRect().top <= 0) {
+        setSettled(true);
+      }
+    };
 
-    observer.observe(section);
-    return () => observer.disconnect();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   // Eagerly preload ALL category images on mount — eliminates first-click latency.
@@ -82,7 +76,7 @@ export function InfoSection() {
   return (
     <section
       ref={sectionRef}
-      className="info-section"
+      className={`info-section ${settled ? 'is-settled' : ''}`}
       id="info-section"
     >
       <nav className="info-sidebar">

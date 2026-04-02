@@ -73,7 +73,7 @@ export function VideoScroll({
               trigger: containerRef.current,
               start: 'top top',
               end: 'bottom bottom',
-              scrub: true, /* 1:1 with scroll — removes lag on mobile touch */
+              scrub: 1.2, /* Doubled from 0.6 for extra smoothness on mobile/iPhone */
             }
           });
 
