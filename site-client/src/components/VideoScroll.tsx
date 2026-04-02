@@ -80,14 +80,15 @@ export function VideoScroll({
           tl.to(obj, {
             f: frameCount - 1,
             ease: 'none',
-            duration: 1, /* Map video exactly to 100% of the scroll without hold */
+            duration: 0.85, /* 85% of scroll triggers the video */
             onUpdate() {
               currentFrameRef.current = Math.min(
                 frameCount - 1,
                 Math.max(0, obj.f)
               );
             },
-          }); /* No empty .to() at the end causing scrolling dead-zones */
+          })
+          .to({}, { duration: 0.15 }); /* Last 15% of scroll holds the final frame */
         });
       });
 

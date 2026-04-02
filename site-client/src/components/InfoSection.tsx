@@ -76,8 +76,9 @@ export function InfoSection() {
   return (
     <section
       ref={sectionRef}
-      className={`info-section ${settled ? 'is-settled' : ''}`}
+      className="info-section"
       id="info-section"
+      style={{ pointerEvents: settled ? 'auto' : 'none' }}
     >
       <nav className="info-sidebar">
         {SIDEBAR_BUTTONS.map((id) => {
