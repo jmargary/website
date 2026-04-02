@@ -10,6 +10,30 @@ export function InfoSection() {
   const expansionRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
+  // Track when info section enters the viewport (used for future enhancements)
+  const [settled, setSettled] = useState(false);
+  void settled; // suppress lint — retained for potential future use
+
+  // Use IntersectionObserver to detect when the section reaches the viewport top.
+  // IntersectionObserver is passive and safe for iOS — avoids touch-event conflicts.
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setSettled(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.05 } // trigger when 5% of section is visible
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
   // Eagerly preload ALL category images on mount — eliminates first-click latency.
   // Uses requestIdleCallback so it doesn't block the main thread.
   useEffect(() => {

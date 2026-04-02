@@ -9,12 +9,6 @@ import './index.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Prevent jumpy animations on mobile devices when the address bar hides/shows
-ScrollTrigger.config({ ignoreMobileResize: true });
-
-// Normalize scroll ensures touch-scrolling smoothly syncs with GSAP without erratic native jumps backwards on iOS
-ScrollTrigger.normalizeScroll(true);
-
 // Matches: frame_000.webp ... frame_191.webp (192 frames)
 const frameUrl = (index: number) =>
   `frames/ezgif-split/frame_${String(index).padStart(3, '0')}.webp`;
