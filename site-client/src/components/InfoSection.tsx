@@ -521,6 +521,20 @@ export function InfoSection() {
           <img src={selectedImage} alt="Full View" onClick={(e) => e.stopPropagation()} />
         </div>
       )}
+
+      {/* Final Footer Copyright */}
+      <footer style={{
+        padding: '2rem 0',
+        width: '100%',
+        textAlign: 'center',
+        background: 'rgba(0,0,0,0.95)',
+        borderTop: '1px solid rgba(255,255,255,0.05)',
+        color: 'rgba(255,255,255,0.4)',
+        fontSize: '0.85rem',
+        letterSpacing: '0.5px'
+      }}>
+        © 2026 UpAndUp All Rights Reserved.
+      </footer>
     </section>
   );
 }

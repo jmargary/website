@@ -27,6 +27,8 @@ export function VideoScroll({
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d', { alpha: false })!;
+    const isMobile = window.innerWidth < 768;
+    const effectiveFrames = isMobile ? Math.ceil(frameCount / 2) : frameCount;
 
     // Load first frame immediately so the page appears ready
     fetch(frameUrlPattern(0))
@@ -39,28 +41,31 @@ export function VideoScroll({
         ctx.drawImage(bitmap, 0, 0);
         setFirstFrameReady(true);
 
-        // Load remaining frames in background
-        const remaining = Array.from({ length: frameCount - 1 }, (_, i) => {
-          const idx = i + 1;
-          return fetch(frameUrlPattern(idx))
+        // Load remaining frames with skips on mobile for performance
+        const remaining = Array.from({ length: effectiveFrames - 1 }, (_, i) => {
+          const frameIdx = isMobile ? (i + 1) * 2 : i + 1;
+          const targetStoreIdx = i + 1;
+          if (frameIdx >= frameCount) return Promise.resolve(null);
+
+          return fetch(frameUrlPattern(frameIdx))
             .then((r) => r.blob())
             .then((blob) => createImageBitmap(blob))
             .then((bmp) => {
-              bitmapsRef.current[idx] = bmp;
+              bitmapsRef.current[targetStoreIdx] = bmp;
               return bmp;
             });
         });
 
         Promise.all(remaining).then(() => {
           // All frames loaded — start render loop + scroll trigger
-          let renderedFrame = -1;
+          let renderedTargetIdx = -1;
           const renderLoop = () => {
             const target = Math.round(currentFrameRef.current);
-            if (target !== renderedFrame) {
+            if (target !== renderedTargetIdx) {
               const bmp = bitmapsRef.current[target];
               if (bmp) {
                 ctx.drawImage(bmp, 0, 0);
-                renderedFrame = target;
+                renderedTargetIdx = target;
               }
             }
             rafRef.current = requestAnimationFrame(renderLoop);
@@ -73,22 +78,22 @@ export function VideoScroll({
               trigger: containerRef.current,
               start: 'top top',
               end: 'bottom bottom',
-              scrub: 0.6,
+              scrub: 2.0, // Higher scrub for smoother interpolation on touch/iOS
             }
           });
 
           tl.to(obj, {
-            f: frameCount - 1,
+            f: effectiveFrames - 1,
             ease: 'none',
             duration: 0.85, /* 85% of scroll triggers the video */
             onUpdate() {
               currentFrameRef.current = Math.min(
-                frameCount - 1,
+                effectiveFrames - 1,
                 Math.max(0, obj.f)
               );
             },
           })
-          .to({}, { duration: 0.15 }); /* Last 15% of scroll holds the final frame */
+          .to({}, { duration: 0.15 }); 
         });
       });
 
