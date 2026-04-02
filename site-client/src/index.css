@@ -280,16 +280,26 @@ p.lead {
   }
 
   .info-panel {
-    min-height: 60vh;
-    /* space for content on mobile */
+    min-height: auto;
+    overflow: visible;
   }
 
   .info-panel-content {
-    padding: 2rem;
+    position: relative;
+    padding: 2.5rem 1.5rem;
+    overflow-y: visible;
+    height: auto;
+    min-height: auto;
+    width: 100%;
   }
 
   .info-panel-title {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
+    word-wrap: break-word;
+  }
+
+  .white-buffer {
+    height: 80px !important;
   }
 }
 

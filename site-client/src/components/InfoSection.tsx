@@ -511,6 +511,19 @@ export function InfoSection() {
               )}
             </div>
           )}
+          {/* Global Footer Copyright */}
+          <footer style={{ 
+            marginTop: '4rem', 
+            paddingTop: '2rem', 
+            borderTop: '1px solid rgba(255, 255, 255, 0.1)', 
+            textAlign: 'center',
+            color: 'rgba(255, 255, 255, 0.4)',
+            fontSize: '0.9rem',
+            width: '100%',
+            paddingBottom: '2rem'
+          }}>
+            © 2026 UpAndUp All Rights Reserved.
+          </footer>
         </div>
       </div>
 

@@ -28,7 +28,7 @@ export function VideoScroll({
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d', { alpha: false })!;
 
-    // Load first frame immediately
+    // Load first frame immediately so the page appears ready
     fetch(frameUrlPattern(0))
       .then((r) => r.blob())
       .then((blob) => createImageBitmap(blob))
@@ -39,55 +39,57 @@ export function VideoScroll({
         ctx.drawImage(bitmap, 0, 0);
         setFirstFrameReady(true);
 
-        // START SCROLL TRIGGER IMMEDIATELY (Don't wait for all frames)
-        const renderLoop = () => {
-          const target = Math.floor(currentFrameRef.current);
-          const bmp = bitmapsRef.current[target];
-          if (bmp) {
-            ctx.drawImage(bmp, 0, 0);
-          }
-          rafRef.current = requestAnimationFrame(renderLoop);
-        };
-        rafRef.current = requestAnimationFrame(renderLoop);
-
-        const obj = { f: 0 };
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top top',
-            end: 'bottom bottom',
-            scrub: 1.2, /* Smoother scrub for mobile */
-          }
+        // Load remaining frames in background
+        const remaining = Array.from({ length: frameCount - 1 }, (_, i) => {
+          const idx = i + 1;
+          return fetch(frameUrlPattern(idx))
+            .then((r) => r.blob())
+            .then((blob) => createImageBitmap(blob))
+            .then((bmp) => {
+              bitmapsRef.current[idx] = bmp;
+              return bmp;
+            });
         });
 
-        // 1. Initial 15% Scroll: Hold Frame 0
-        tl.to({}, { duration: 0.15 })
-          // 2. Main 70% Scroll: Animate Frames
-          .to(obj, {
+        Promise.all(remaining).then(() => {
+          // All frames loaded — start render loop + scroll trigger
+          let renderedFrame = -1;
+          const renderLoop = () => {
+            const target = Math.round(currentFrameRef.current);
+            if (target !== renderedFrame) {
+              const bmp = bitmapsRef.current[target];
+              if (bmp) {
+                ctx.drawImage(bmp, 0, 0);
+                renderedFrame = target;
+              }
+            }
+            rafRef.current = requestAnimationFrame(renderLoop);
+          };
+          rafRef.current = requestAnimationFrame(renderLoop);
+
+          const obj = { f: 0 };
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: 'top top',
+              end: 'bottom bottom',
+              scrub: 1.2, /* Doubled from 0.6 for extra smoothness on mobile/iPhone */
+            }
+          });
+
+          tl.to(obj, {
             f: frameCount - 1,
             ease: 'none',
-            duration: 0.70,
+            duration: 0.85, /* 85% of scroll triggers the video */
             onUpdate() {
-              currentFrameRef.current = Math.min(frameCount - 1, Math.max(0, obj.f));
+              currentFrameRef.current = Math.min(
+                frameCount - 1,
+                Math.max(0, obj.f)
+              );
             },
           })
-          // 3. Last 15% Scroll: Hold Final Frame
-          .to({}, { duration: 0.15 });
-
-        // Load remaining frames in sequence (prioritized)
-        const loadSequentially = async () => {
-          for (let i = 1; i < frameCount; i++) {
-            try {
-              const res = await fetch(frameUrlPattern(i));
-              const blob = await res.blob();
-              const bmp = await createImageBitmap(blob);
-              bitmapsRef.current[i] = bmp;
-            } catch (e) {
-              console.error('Frame error:', i, e);
-            }
-          }
-        };
-        loadSequentially();
+          .to({}, { duration: 0.15 }); /* Last 15% of scroll holds the final frame */
+        });
       });
 
     return () => {
