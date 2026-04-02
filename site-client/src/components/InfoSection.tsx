@@ -404,19 +404,14 @@ export function InfoSection() {
               {languageData.alternatingList.map((item, idx) => (
                 <div 
                   key={idx} 
-                  className="alternating-row animate-slide"
+                  className={`alternating-row animate-slide ${idx % 2 !== 0 ? 'alternating-row--reverse' : ''}`}
                   style={{ 
-                    display: 'flex', 
-                    flexDirection: idx % 2 === 0 ? 'row' : 'row-reverse', 
-                    alignItems: 'stretch', 
                     gap: '4rem',
                     marginBottom: '5rem',
-                    minHeight: '350px'
                   }}
                 >
                   {/* Text Side */}
-                  <div style={{ 
-                    flex: 1, 
+                  <div className="alternating-row-text" style={{ 
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',
@@ -437,7 +432,7 @@ export function InfoSection() {
                       {item.title}
                     </h3>
                     <p style={{ 
-                      fontSize: '1.25rem', 
+                      fontSize: '1.2rem', 
                       lineHeight: 1.8, 
                       color: 'rgba(255,255,255,0.8)',
                       fontWeight: 500
@@ -446,10 +441,8 @@ export function InfoSection() {
                     </p>
                   </div>
                   
-                  {/* Image Side - Balanced Area */}
-                  <div style={{ 
-                    flex: 1,
-                    minHeight: '350px',
+                  {/* Image Side - Responsive Area */}
+                  <div className="alternating-row-image" style={{ 
                     borderRadius: '24px',
                     overflow: 'hidden',
                     boxShadow: '0 20px 40px rgba(0,0,0,0.4)',

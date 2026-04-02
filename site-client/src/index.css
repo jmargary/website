@@ -611,3 +611,46 @@ p.lead {
     opacity: 1;
   }
 }
+
+/* Services Alternating List Styles */
+.alternating-row {
+  display: flex !important;
+  align-items: center !important;
+  width: 100%;
+}
+
+.alternating-row--reverse {
+  flex-direction: row-reverse !important;
+}
+
+.alternating-row-text {
+  flex: 1.2;
+}
+
+.alternating-row-image {
+  flex: 0.8;
+  aspect-ratio: 1 / 1;
+  max-width: 450px;
+  min-width: 300px;
+}
+
+@media (max-width: 992px) {
+  .alternating-row {
+    flex-direction: column !important;
+    gap: 2rem !important;
+    align-items: stretch !important;
+    min-height: auto !important;
+    margin-bottom: 4rem !important;
+  }
+
+  .alternating-row-image {
+    order: -1; /* Always above text on mobile */
+    max-width: 100%;
+    aspect-ratio: 16 / 9; /* Wider ratio on mobile to save vertical space */
+    min-height: 250px;
+  }
+
+  .alternating-row-text {
+    padding: 1.5rem !important;
+  }
+}
