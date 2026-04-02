@@ -10,24 +10,6 @@ export function InfoSection() {
   const expansionRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
-  const [settled, setSettled] = useState(false);
-
-  // Simple pointer-events lock: disable mouse interaction on section until it reaches viewport top.
-  // Uses a passive scroll listener — zero JS scroll manipulation, no lag.
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const onScroll = () => {
-      if (section.getBoundingClientRect().top <= 0) {
-        setSettled(true);
-      }
-    };
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
   // Eagerly preload ALL category images on mount — eliminates first-click latency.
   // Uses requestIdleCallback so it doesn't block the main thread.
   useEffect(() => {
@@ -78,7 +60,6 @@ export function InfoSection() {
       ref={sectionRef}
       className="info-section"
       id="info-section"
-      style={{ pointerEvents: settled ? 'auto' : 'none' }}
     >
       <nav className="info-sidebar">
         {SIDEBAR_BUTTONS.map((id) => {
