@@ -98,13 +98,34 @@ export function InfoSection() {
         })}
       </nav>
 
-      <div className="info-panel info-panel--open">
-        {/* Sticky Background Layer - this prevents stretching on long mobile content! */}
-        <div className="info-panel-bg-mobile" />
-        
+      <div
+        className="info-panel info-panel--open"
+        style={{
+          display: 'grid',
+          backgroundColor: '#000' // fallback
+        }}
+      >
+        {/* Perfectly sticky responsive background layer */}
+        <div 
+           className="info-panel-bg"
+           style={{
+             gridArea: '1 / 1',
+             position: 'sticky',
+             top: 0,
+             height: '100vh',
+             width: '100%',
+             backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('${languageData.panelBackground || 'images/business/background.webp'}')`,
+             backgroundSize: 'cover',
+             backgroundPosition: 'center',
+             zIndex: 0
+           }}
+        />
+
+        {/* Content layer that scrolls over the background */}
         <div
           key={activeId ?? 'default'}
           className="info-panel-content animate-slide"
+          style={{ gridArea: '1 / 1', zIndex: 1 }}
         >
           {/* Main Category Title & Subtitle */}
           {(languageData.layoutType !== 'plansGrid' && languageData.layoutType !== 'alternatingList' && languageData.layoutType !== 'featureGrid') && (
