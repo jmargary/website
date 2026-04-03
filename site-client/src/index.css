@@ -660,11 +660,19 @@ p.lead {
   .alternating-row-image {
     order: -1; /* Always above text on mobile */
     max-width: 100%;
-    aspect-ratio: 16 / 9; /* Wider ratio on mobile to save vertical space */
-    min-height: 250px;
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    min-height: auto !important;
   }
 
   .alternating-row-text {
     padding: 1.5rem !important;
+  }
+
+  /* Plans Category Mobile Fix */
+  .plans-grid {
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 }

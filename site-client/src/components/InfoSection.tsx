@@ -436,20 +436,27 @@ export function InfoSection() {
                   </div>
                   
                   {/* Image Side - Responsive Area */}
+                  {/* Image Side - Responsive Area */}
                   <div className="alternating-row-image" style={{ 
                     borderRadius: '24px',
                     overflow: 'hidden',
                     boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
-                    border: '1px solid rgba(255,255,255,0.1)'
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    position: 'relative'
                   }}>
-                    <div style={{
-                      width: '100%',
-                      height: '100%',
-                      backgroundImage: `url(${item.imageUrl})`,
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center',
-                      transition: 'transform 0.6s ease'
-                    }} className="service-img-hover" />
+                    <img 
+                      src={item.imageUrl} 
+                      alt={item.title} 
+                      className="service-img-hover"
+                      loading="lazy"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        display: 'block',
+                        transition: 'transform 0.6s ease'
+                      }}
+                    />
                   </div>
                 </div>
               ))}
