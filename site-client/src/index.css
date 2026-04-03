@@ -135,11 +135,10 @@ p.lead {
    INFO SECTION COMPONENT
    ────────────────────────────────────────────── */
 .info-section {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('images/business/background.webp');
+  background-image: url('images/business/background.webp');
   background-size: cover;
   background-position: center;
   background-attachment: fixed; /* Parallax-like effect or just stable on mobile */
-  background-color: var(--info-bg);
   color: var(--info-text);
   min-height: 100vh;
   display: flex;
