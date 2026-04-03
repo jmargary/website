@@ -137,24 +137,13 @@ p.lead {
 .info-section {
   background-color: var(--info-bg);
   color: var(--info-text);
+  /* The section acts as a sticky container if we want it to freeze,
+     but regular block level is also fine as it acts as a normal section */
   min-height: 100vh;
   display: flex;
   position: relative;
   overflow: hidden;
-  /* Fixed background that doesn't stretch with content height */
-  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('images/business/background.webp');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed; /* Works well on desktop and most high-end mobile browsers */
 }
-
-@media (max-width: 992px) {
-  .info-section {
-    background-attachment: scroll; /* iOS Safari often breaks with 'fixed', so cover + auto height is better there */
-    background-size: 100vw auto; /* Maintain aspect ratio */
-  }
-}
-
 
 .info-sidebar {
   width: clamp(240px, 25vw, 320px);
@@ -217,6 +206,19 @@ p.lead {
   overflow: hidden;
 }
 
+.info-panel-bg-mobile {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('images/business/background.webp');
+  background-size: cover;
+  background-position: center;
+  background-color: #1a1a1a;
+  z-index: 0;
+}
+
 .info-panel-content {
   position: absolute;
   top: 0;
@@ -227,6 +229,7 @@ p.lead {
   overflow-y: auto;
   contain: content;
   transform: translateZ(0);
+  z-index: 1;
 }
 
 @keyframes slideInRight {
@@ -301,6 +304,12 @@ p.lead {
     overflow: visible;
   }
 
+  .info-panel-bg-mobile {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+  }
+
   .info-panel-content {
     position: relative;
     padding: 2.5rem 1.5rem;
@@ -308,6 +317,8 @@ p.lead {
     height: auto;
     min-height: auto;
     width: 100%;
+    margin-top: -100vh;
+    z-index: 1;
   }
 
   .info-panel-title {

@@ -98,12 +98,10 @@ export function InfoSection() {
         })}
       </nav>
 
-      <div
-        className="info-panel info-panel--open"
-        style={{
-          backgroundColor: 'transparent'
-        }}
-      >
+      <div className="info-panel info-panel--open">
+        {/* Sticky Background Layer - this prevents stretching on long mobile content! */}
+        <div className="info-panel-bg-mobile" />
+        
         <div
           key={activeId ?? 'default'}
           className="info-panel-content animate-slide"
