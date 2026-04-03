@@ -100,12 +100,6 @@ export function InfoSection() {
 
       <div
         className="info-panel info-panel--open"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('images/business/background.webp')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundColor: 'transparent'
-        }}
       >
         <div
           key={activeId ?? 'default'}
