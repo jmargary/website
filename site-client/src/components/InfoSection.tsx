@@ -78,14 +78,7 @@ export function InfoSection() {
       ref={sectionRef}
       className="info-section"
       id="info-section"
-      style={{ 
-        pointerEvents: settled ? 'auto' : 'none',
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('images/business/background.webp')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed', /* Keeps it stable as you scroll */
-        backgroundColor: '#1a1a1a'
-      }}
+      style={{ pointerEvents: settled ? 'auto' : 'none' }}
     >
       <nav className="info-sidebar">
         {SIDEBAR_BUTTONS.map((id) => {
@@ -105,7 +98,15 @@ export function InfoSection() {
         })}
       </nav>
 
-      <div className="info-panel info-panel--open" style={{ background: 'transparent' }}>
+      <div
+        className="info-panel info-panel--open"
+        style={{
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('images/business/background.webp')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundColor: 'transparent'
+        }}
+      >
         <div
           key={activeId ?? 'default'}
           className="info-panel-content animate-slide"
