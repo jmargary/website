@@ -135,11 +135,10 @@ p.lead {
    INFO SECTION COMPONENT
    ────────────────────────────────────────────── */
 .info-section {
-  background-image: url('images/business/background.webp');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed; /* Parallax-like effect or just stable on mobile */
+  background-color: var(--info-bg);
   color: var(--info-text);
+  /* The section acts as a sticky container if we want it to freeze,
+     but regular block level is also fine as it acts as a normal section */
   min-height: 100vh;
   display: flex;
   position: relative;
@@ -659,19 +658,11 @@ p.lead {
   .alternating-row-image {
     order: -1; /* Always above text on mobile */
     max-width: 100%;
-    aspect-ratio: 16 / 9;
-    width: 100%;
-    min-height: auto !important;
+    aspect-ratio: 16 / 9; /* Wider ratio on mobile to save vertical space */
+    min-height: 250px;
   }
 
   .alternating-row-text {
     padding: 1.5rem !important;
-  }
-
-  /* Plans Category Mobile Fix */
-  .plans-grid {
-    grid-template-columns: 1fr !important;
-    width: 100% !important;
-    max-width: 100% !important;
   }
 }

@@ -78,7 +78,14 @@ export function InfoSection() {
       ref={sectionRef}
       className="info-section"
       id="info-section"
-      style={{ pointerEvents: settled ? 'auto' : 'none' }}
+      style={{ 
+        pointerEvents: settled ? 'auto' : 'none',
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('images/business/background.webp')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed', /* Keeps it stable as you scroll */
+        backgroundColor: '#1a1a1a'
+      }}
     >
       <nav className="info-sidebar">
         {SIDEBAR_BUTTONS.map((id) => {
@@ -98,9 +105,7 @@ export function InfoSection() {
         })}
       </nav>
 
-      <div
-        className="info-panel info-panel--open"
-      >
+      <div className="info-panel info-panel--open" style={{ background: 'transparent' }}>
         <div
           key={activeId ?? 'default'}
           className="info-panel-content animate-slide"
@@ -436,27 +441,20 @@ export function InfoSection() {
                   </div>
                   
                   {/* Image Side - Responsive Area */}
-                  {/* Image Side - Responsive Area */}
                   <div className="alternating-row-image" style={{ 
                     borderRadius: '24px',
                     overflow: 'hidden',
                     boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    position: 'relative'
+                    border: '1px solid rgba(255,255,255,0.1)'
                   }}>
-                    <img 
-                      src={item.imageUrl} 
-                      alt={item.title} 
-                      className="service-img-hover"
-                      loading="lazy"
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        display: 'block',
-                        transition: 'transform 0.6s ease'
-                      }}
-                    />
+                    <div style={{
+                      width: '100%',
+                      height: '100%',
+                      backgroundImage: `url(${item.imageUrl})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      transition: 'transform 0.6s ease'
+                    }} className="service-img-hover" />
                   </div>
                 </div>
               ))}
