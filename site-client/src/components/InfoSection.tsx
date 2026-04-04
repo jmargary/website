@@ -309,12 +309,7 @@ export function InfoSection() {
           {/* Main Category Plans GRID (New) */}
           {languageData.layoutType === 'plansGrid' && languageData.plansData && (
             <div className="plans-grid-container" style={{ marginBottom: '3rem' }}>
-              <div className="plans-grid" style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(2, 1fr)',
-                gap: '1.5rem',
-                maxWidth: '900px'
-              }}>
+              <div className="plans-grid">
                 {languageData.plansData.map((plan, idx) => (
                   <div
                     key={idx}

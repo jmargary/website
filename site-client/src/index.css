@@ -645,6 +645,22 @@ p.lead {
   aspect-ratio: 1 / 1;
   max-width: 450px;
   min-width: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Plans Grid Responsive Styles */
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  max-width: 900px;
+}
+
+@media (max-width: 768px) {
+  .plans-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 992px) {
@@ -659,7 +675,8 @@ p.lead {
   .alternating-row-image {
     order: -1; /* Always above text on mobile */
     max-width: 100%;
-    aspect-ratio: 16 / 9; /* Wider ratio on mobile to save vertical space */
+    min-width: 100%;
+    aspect-ratio: 4 / 3; /* More balanced ratio for smaller screens */
     min-height: 250px;
   }
 
