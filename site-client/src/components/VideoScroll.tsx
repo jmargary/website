@@ -18,8 +18,6 @@ export function VideoScroll({
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const bitmapsRef = useRef<ImageBitmap[]>([]);
-  const currentFrameRef = useRef(0);
-  const rafRef = useRef<number>(0);
   const [firstFrameReady, setFirstFrameReady] = useState(false);
 
   useEffect(() => {
@@ -52,22 +50,10 @@ export function VideoScroll({
         });
 
         Promise.all(remaining).then(() => {
-          // All frames loaded — start render loop + scroll trigger
+          // All frames loaded — setup scroll trigger
           let renderedFrame = -1;
-          const renderLoop = () => {
-            const target = Math.round(currentFrameRef.current);
-            if (target !== renderedFrame) {
-              const bmp = bitmapsRef.current[target];
-              if (bmp) {
-                ctx.drawImage(bmp, 0, 0);
-                renderedFrame = target;
-              }
-            }
-            rafRef.current = requestAnimationFrame(renderLoop);
-          };
-          rafRef.current = requestAnimationFrame(renderLoop);
-
           const obj = { f: 0 };
+          
           const tl = gsap.timeline({
             scrollTrigger: {
               trigger: containerRef.current,
@@ -82,10 +68,14 @@ export function VideoScroll({
             ease: 'none',
             duration: 0.85, /* 85% of scroll triggers the video */
             onUpdate() {
-              currentFrameRef.current = Math.min(
-                frameCount - 1,
-                Math.max(0, obj.f)
-              );
+              const target = Math.round(obj.f);
+              if (target !== renderedFrame) {
+                const bmp = bitmapsRef.current[target];
+                if (bmp) {
+                  ctx.drawImage(bmp, 0, 0);
+                  renderedFrame = target;
+                }
+              }
             },
           })
           .to({}, { duration: 0.15 }); /* Last 15% of scroll holds the final frame */
@@ -93,7 +83,6 @@ export function VideoScroll({
       });
 
     return () => {
-      cancelAnimationFrame(rafRef.current);
       ScrollTrigger.getAll().forEach((t) => t.kill());
       bitmapsRef.current.forEach((b) => b.close());
       bitmapsRef.current = [];

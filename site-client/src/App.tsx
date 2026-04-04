@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { VideoScroll } from './components/VideoScroll';
@@ -14,19 +14,6 @@ const frameUrl = (index: number) =>
   `frames/ezgif-split/frame_${String(index).padStart(3, '0')}.webp`;
 
 function App() {
-  useEffect(() => {
-    const els = gsap.utils.toArray<HTMLElement>('.reveal');
-    els.forEach((el) => {
-      gsap.fromTo(
-        el,
-        { y: 60, opacity: 0 },
-        {
-          y: 0, opacity: 1, duration: 1.2, ease: 'power3.out',
-          scrollTrigger: { trigger: el, start: 'top 88%' },
-        }
-      );
-    });
-  }, []);
 
   return (
     <LanguageProvider>

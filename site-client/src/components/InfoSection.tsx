@@ -13,7 +13,7 @@ export function InfoSection() {
   const [settled, setSettled] = useState(false);
 
   // Simple pointer-events lock: disable mouse interaction on section until it reaches viewport top.
-  // Uses a passive scroll listener — zero JS scroll manipulation, no lag.
+  // Optimized: removes listener immediately upon condition met to eliminate constant layout thrashing.
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
@@ -21,10 +21,15 @@ export function InfoSection() {
     const onScroll = () => {
       if (section.getBoundingClientRect().top <= 0) {
         setSettled(true);
+        window.removeEventListener('scroll', onScroll);
       }
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
+    
+    // Check immediately in case page is loaded already scrolled down
+    onScroll();
+    
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 

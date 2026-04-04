@@ -39,45 +39,7 @@ h1 {
   -webkit-text-fill-color: transparent;
 }
 
-p.lead {
-  font-size: clamp(1.2rem, 3vw, 1.5rem);
-  color: var(--text-secondary);
-  max-width: 600px;
-  margin-top: 1rem;
-}
 
-/* Base Sections */
-.section {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 2rem;
-  position: relative;
-  z-index: 10;
-}
-
-.hero {
-  background: radial-gradient(circle at 50% 0%, var(--accent-glow) 0%, transparent 60%);
-}
-
-.video-section {
-  position: relative;
-  z-index: 1;
-}
-
-.glass-card {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 3rem;
-  border-radius: 24px;
-  max-width: 800px;
-  margin: 0 auto;
-}
 
 /* ──────────────────────────────────────────────
    VIDEO SCROLL COMPONENT
@@ -194,10 +156,6 @@ p.lead {
 .info-btn--active:hover {
   background: #000000 !important;
   color: #ffffff !important;
-}
-
-.info-btn--active:hover {
-  background: #000000;
 }
 
 .info-panel {
