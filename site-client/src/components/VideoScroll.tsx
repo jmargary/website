@@ -17,7 +17,7 @@ export function VideoScroll({
 }: VideoScrollProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const bitmapsRef = useRef<ImageBitmap[]>([]);
+  const imagesRef = useRef<HTMLImageElement[]>([]);
   const [firstFrameReady, setFirstFrameReady] = useState(false);
 
   useEffect(() => {
@@ -26,66 +26,57 @@ export function VideoScroll({
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d', { alpha: false })!;
 
-    // Load first frame immediately so the page appears ready
-    fetch(frameUrlPattern(0))
-      .then((r) => r.blob())
-      .then((blob) => createImageBitmap(blob))
-      .then((bitmap) => {
-        bitmapsRef.current[0] = bitmap;
-        canvas.width = bitmap.width;
-        canvas.height = bitmap.height;
-        ctx.drawImage(bitmap, 0, 0);
-        setFirstFrameReady(true);
+    // Load first frame immediately
+    const firstImg = new Image();
+    firstImg.src = frameUrlPattern(0);
+    firstImg.onload = () => {
+      imagesRef.current[0] = firstImg;
+      canvas.width = firstImg.width || 1920;
+      canvas.height = firstImg.height || 1080;
+      ctx.drawImage(firstImg, 0, 0, canvas.width, canvas.height);
+      setFirstFrameReady(true);
 
-        // Load remaining frames in background
-        const remaining = Array.from({ length: frameCount - 1 }, (_, i) => {
-          const idx = i + 1;
-          return fetch(frameUrlPattern(idx))
-            .then((r) => r.blob())
-            .then((blob) => createImageBitmap(blob))
-            .then((bmp) => {
-              bitmapsRef.current[idx] = bmp;
-              return bmp;
-            });
-        });
+      // Preload remaining frames via native browser caching
+      for (let i = 1; i < frameCount; i++) {
+        const img = new Image();
+        img.src = frameUrlPattern(i);
+        imagesRef.current[i] = img;
+      }
 
-        Promise.all(remaining).then(() => {
-          // All frames loaded — setup scroll trigger
-          let renderedFrame = -1;
-          const obj = { f: 0 };
-          
-          const tl = gsap.timeline({
-            scrollTrigger: {
-              trigger: containerRef.current,
-              start: 'top top',
-              end: 'bottom bottom',
-              scrub: 1.2, /* Doubled from 0.6 for extra smoothness on mobile/iPhone */
-            }
-          });
-
-          tl.to(obj, {
-            f: frameCount - 1,
-            ease: 'none',
-            duration: 0.85, /* 85% of scroll triggers the video */
-            onUpdate() {
-              const target = Math.round(obj.f);
-              if (target !== renderedFrame) {
-                const bmp = bitmapsRef.current[target];
-                if (bmp) {
-                  ctx.drawImage(bmp, 0, 0);
-                  renderedFrame = target;
-                }
-              }
-            },
-          })
-          .to({}, { duration: 0.15 }); /* Last 15% of scroll holds the final frame */
-        });
+      // Setup GSAP scroll trigger timeline
+      let renderedFrame = -1;
+      const obj = { f: 0 };
+      
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: 1.2, /* Doubled for extra smoothness on mobile/iPhone */
+        }
       });
+
+      tl.to(obj, {
+        f: frameCount - 1,
+        ease: 'none',
+        duration: 0.85, /* 85% of scroll triggers the video */
+        onUpdate() {
+          const target = Math.round(obj.f);
+          if (target !== renderedFrame) {
+            const img = imagesRef.current[target];
+            if (img && img.complete && img.naturalWidth > 0) {
+              ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+              renderedFrame = target;
+            }
+          }
+        },
+      })
+      .to({}, { duration: 0.15 }); /* Last 15% hold frame */
+    };
 
     return () => {
       ScrollTrigger.getAll().forEach((t) => t.kill());
-      bitmapsRef.current.forEach((b) => b.close());
-      bitmapsRef.current = [];
+      imagesRef.current = [];
     };
   }, [frameCount, frameUrlPattern]);
 

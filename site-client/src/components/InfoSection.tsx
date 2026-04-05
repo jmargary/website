@@ -122,6 +122,8 @@ export function InfoSection() {
              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('${languageData.panelBackground || 'images/business/background.webp'}')`,
              backgroundSize: 'cover',
              backgroundPosition: 'center',
+             transform: 'translate3d(0, 0, 0)',
+             WebkitTransform: 'translate3d(0, 0, 0)',
              zIndex: 0
            }}
         />
