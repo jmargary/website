@@ -1,0 +1,654 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&display=swap');
+
+:root {
+  --background: #0f1115; /* Deep Slate Black */
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
+  --accent: #d4af37; /* Golden */
+  --accent-glow: rgba(212, 175, 55, 0.15);
+  /* New Info Section theme colors */
+  --info-bg: #0f1115; /* Deep Slate Black */
+  --info-text: #ffffff;
+  --info-border: rgba(212, 175, 55, 0.2);
+  --info-accent: #d4af37;
+  --bg-pattern: url("data:image/svg+xml,%3Csvg width='200' height='500' viewBox='0 0 200 500' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='8' height='200' fill='%23d4af37' fill-opacity='0.3'/%3E%3Crect x='100' y='250' width='8' height='200' fill='%23d4af37' fill-opacity='0.3'/%3E%3C/svg%3E");
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--background);
+  background-image: var(--bg-pattern);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Typography Enhancements */
+h1 {
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  background: linear-gradient(180deg, #111 0%, #555 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+
+/* ──────────────────────────────────────────────
+   VIDEO SCROLL COMPONENT
+   ────────────────────────────────────────────── */
+.video-scroll-container {
+  width: 100%;
+}
+
+.video-scroll-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--background);
+  background-image: var(--bg-pattern);
+  background-attachment: fixed;
+  overflow: hidden;
+}
+
+.video-scroll-canvas-wrapper {
+  /* This centers the animation and leaves area/margin from the sides */
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 5vw;
+  /* responsiveness on mobile/desktop margins */
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-scroll-canvas {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* maintains aspect ratio without cropping */
+  transition: opacity 0.5s ease;
+}
+
+.white-buffer {
+  height: 250px;
+  background-color: var(--background);
+  background-image: var(--bg-pattern);
+  background-attachment: fixed;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .white-buffer {
+    height: 80px;
+  }
+}
+
+/* ──────────────────────────────────────────────
+   INFO SECTION COMPONENT
+   ────────────────────────────────────────────── */
+.info-section {
+  background-color: var(--info-bg);
+  background-image: var(--bg-pattern);
+  background-attachment: fixed;
+  color: var(--info-text);
+  /* The section acts as a sticky container if we want it to freeze,
+     but regular block level is also fine as it acts as a normal section */
+  min-height: 100vh;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.info-sidebar {
+  background-color: var(--info-bg);
+  width: clamp(240px, 25vw, 320px);
+  margin-left: max(2rem, 6vw);
+  margin-top: auto;
+  margin-bottom: auto;
+  height: max-content;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  z-index: 2;
+  position: relative;
+}
+
+.info-btn {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 0.5px solid #d4af37; /* Golden Line */
+  color: #ffffff;
+  padding: 1.25rem 1.5rem;
+  border-radius: 9999px;
+  /* capsule/pill shape */
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: inherit;
+}
+
+.info-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.info-btn--active {
+  background: #000000;
+  color: #ffffff;
+  border: 1px solid #d4af37;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.info-btn--active:hover {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+.info-panel {
+  flex-grow: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.info-panel-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 4rem;
+  overflow-y: auto;
+  contain: content;
+  transform: translateZ(0);
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(20px);
+    opacity: 0;
+    filter: blur(10px);
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+.animate-slide {
+  animation: slideInRight 0.25s ease-out forwards;
+}
+
+.info-panel-title {
+  font-size: 3.5rem;
+  font-weight: 900;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.info-panel-subtitle {
+  font-size: 1.5rem;
+  color: rgba(0, 0, 0, 0.6);
+  margin-bottom: 2rem;
+  font-weight: 400;
+}
+
+.info-panel-desc {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  max-width: 800px;
+  color: rgba(0, 0, 0, 0.8);
+  margin-bottom: 3rem;
+}
+
+.info-panel-image {
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  display: block;
+  /* add when real image is used */
+}
+
+/* Mobile Responsiveness for info section */
+@media (max-width: 768px) {
+  .info-section {
+    flex-direction: column;
+    overflow: visible;
+  }
+
+  .info-sidebar {
+    width: 90%;
+    margin: 2rem auto;
+    align-items: center;
+  }
+
+  .info-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .info-panel {
+    min-height: auto;
+    overflow: visible;
+  }
+
+  .info-panel-content {
+    position: relative;
+    padding: 2.5rem 1.5rem;
+    overflow-y: visible;
+    height: auto;
+    min-height: auto;
+    width: 100%;
+  }
+
+  .info-panel-title {
+    font-size: 2.2rem;
+    word-wrap: break-word;
+  }
+}
+
+/* ──────────────────────────────────────────────
+   SITE HEADER COMPONENT
+   ────────────────────────────────────────────── */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.1);
+  /* Highly transparent */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+  color: var(--info-text);
+  /* The JS logic moves this in via transform, but start off-screen to avoid flash */
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.header-logo {
+  flex: 1;
+}
+
+.header-nav {
+  display: flex;
+  gap: 2rem;
+  flex: 2;
+  justify-content: center;
+}
+
+.header-nav-btn,
+.header-lang-btn {
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--info-text);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.header-nav-btn:hover,
+.header-lang-btn:hover {
+  opacity: 0.6;
+}
+
+.header-actions {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .site-header {
+    padding: 0 1.5rem;
+  }
+
+  .header-nav {
+    display: none;
+    /* Hide standard nav on mobile, use a hamburger icon instead ideally */
+  }
+}
+
+/* ──────────────────────────────────────────────
+   CAROUSEL COMPONENT
+   ────────────────────────────────────────────── */
+.carousel-wrapper {
+  margin-bottom: 2rem;
+}
+
+.carousel-container {
+  width: 100%;
+  height: 400px;
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.carousel-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.carousel-slide {
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  transition: opacity 0.6s ease-in-out;
+}
+
+.carousel-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  padding: 2.5rem;
+  pointer-events: none;
+}
+
+.carousel-overlay--centered {
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-overlay--centered .carousel-text-box {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.carousel-text-box {
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 1.5rem 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  max-width: 85%;
+  pointer-events: auto;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.carousel-dots-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.carousel-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: width 0.4s ease, background 0.4s ease;
+}
+
+.carousel-dot--active {
+  width: 32px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.carousel-dot-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 5px;
+  transform-origin: left;
+  animation: dotProgress 8s linear forwards;
+}
+
+@keyframes dotProgress {
+  0% {
+    transform: scaleX(0);
+  }
+
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+/* Secondary Grid for Floors */
+.secondary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-top: 3rem;
+  max-width: 900px;
+}
+
+.grid-item {
+  background: white;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.grid-item:hover {
+  transform: translateY(-5px);
+}
+
+.grid-item img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.grid-label {
+  text-align: center;
+  font-weight: 600;
+  color: #333;
+  font-size: 1rem;
+}
+
+.carousel-wrapper--small {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .secondary-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+/* Lightbox Modal */
+.lightbox-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.lightbox-modal img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 3rem;
+  cursor: pointer;
+  z-index: 10000;
+  line-height: 1;
+}
+
+/* Carousel Buttons */
+.carousel-controls {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.carousel-ctrl-btn {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #ffffff;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.carousel-ctrl-btn:hover {
+  background: #333;
+  color: white;
+  border-color: #333;
+  transform: scale(1.1);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Services Alternating List Styles */
+.alternating-row {
+  display: flex !important;
+  align-items: center !important;
+  width: 100%;
+}
+
+.alternating-row--reverse {
+  flex-direction: row-reverse !important;
+}
+
+.alternating-row-text {
+  flex: 1.2;
+}
+
+.alternating-row-image {
+  flex: 0.8;
+  aspect-ratio: 1 / 1;
+  max-width: 450px;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Plans Grid Responsive Styles */
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  max-width: 900px;
+}
+
+@media (max-width: 768px) {
+  .plans-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 992px) {
+  .alternating-row {
+    flex-direction: column !important;
+    gap: 2rem !important;
+    align-items: stretch !important;
+    min-height: auto !important;
+    margin-bottom: 4rem !important;
+  }
+
+  .alternating-row-image {
+    order: -1; /* Always above text on mobile */
+    max-width: 100%;
+    min-width: 100%;
+    aspect-ratio: 4 / 3; /* More balanced ratio for smaller screens */
+    min-height: 250px;
+  }
+
+  .alternating-row-text {
+    padding: 1.5rem !important;
+  }
+}
